@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_stock"
+        android:icon="@drawable/ic_stock"
+        android:title="Stok" />
+    <item
+        android:id="@+id/nav_sell"
+        android:icon="@drawable/ic_sell"
+        android:title="Jual" />
+    <item
+        android:id="@+id/nav_money"
+        android:icon="@drawable/ic_money"
+        android:title="Uang" />
+    <item
+        android:id="@+id/nav_summary"
+        android:icon="@drawable/ic_summary"
+        android:title="Ringkasan" />
+</menu>

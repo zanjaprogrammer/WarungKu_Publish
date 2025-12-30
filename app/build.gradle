@@ -1,0 +1,98 @@
+plugins {
+    id 'com.android.application'
+    // Google Services plugin removed - project migrated to Supabase
+    // id 'com.google.gms.google-services'
+}
+
+android {
+    namespace 'com.zanjaprogrammer.warungku'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.zanjaprogrammer.warungku"
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            // Use local keystore for development, Codemagic env vars for CI/CD
+            def keystorePath = System.getenv("CM_KEYSTORE_PATH") ?: project.findProperty("CM_KEYSTORE_PATH") ?: "app/alkahf.jks"
+            def keystorePassword = System.getenv("CM_KEYSTORE_PASSWORD") ?: project.findProperty("CM_KEYSTORE_PASSWORD") ?: "123456789"
+            def keyAliasValue = System.getenv("CM_KEY_ALIAS") ?: project.findProperty("CM_KEY_ALIAS") ?: "alkahf"
+            def keyPasswordValue = System.getenv("CM_KEY_PASSWORD") ?: project.findProperty("CM_KEY_PASSWORD") ?: "123456789"
+            
+            // Debug logging
+            println "🔐 Signing config:"
+            println "   Keystore path: $keystorePath"
+            println "   Key alias: $keyAliasValue"
+            println "   Keystore exists: ${file(keystorePath).exists()}"
+            
+            storeFile file(keystorePath)
+            storePassword keystorePassword
+            keyAlias keyAliasValue
+            keyPassword keyPasswordValue
+        }
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    
+    // Room components
+    implementation "androidx.room:room-runtime:2.5.2"
+    annotationProcessor "androidx.room:room-compiler:2.5.2"
+
+    // Barcode Scanner
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.google.zxing:core:3.5.2'
+
+    // HTTP Client for API calls
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
+
+    // Apache POI for Excel export/import
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+    // MPAndroidChart for reports
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // Glide for image loading
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
+    // Firebase dependencies removed - project migrated to Supabase
+    // implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    // implementation 'com.google.firebase:firebase-firestore'
+    // implementation 'com.google.firebase:firebase-auth'
+    // implementation 'com.google.firebase:firebase-analytics'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

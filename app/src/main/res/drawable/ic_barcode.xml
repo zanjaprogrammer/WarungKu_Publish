@@ -1,0 +1,20 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Barcode lines - lebih jelas dan mirip barcode -->
+    <!-- Left guard -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M2,4h1.5v16H2V4zM4,4h1v16H4V4z"/>
+    <!-- Data lines -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M6,4h1v16H6V4zM8,4h2v16H8V4zM11,4h1v16h-1V4zM13,4h1v16h-1V4zM15,4h2v16h-2V4zM18,4h1v16h-1V4zM20,4h2v16h-2V4z"/>
+    <!-- Right guard -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M22.5,4h1.5v16h-1.5V4z"/>
+</vector>
+

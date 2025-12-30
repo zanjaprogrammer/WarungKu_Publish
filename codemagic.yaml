@@ -1,0 +1,125 @@
+workflows:
+  android-workflow:
+    name: Android Build Workflow - WarungKu
+    max_build_duration: 120
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - codemagic_android_keystore # Add keystore credentials in Codemagic UI
+        - supabase_config # Add Supabase config in Codemagic UI
+      vars:
+        PACKAGE_NAME: "com.zanjaprogrammer.warungku"
+        CM_KEYSTORE_PATH: "/tmp/keystore.jks"
+        # Keystore credentials - default values (can be overridden by environment variables)
+        CM_KEYSTORE_PASSWORD: "123456789"
+        CM_KEY_ALIAS: "alkahf"
+        CM_KEY_PASSWORD: "123456789"
+        # Supabase Configuration (set these in Codemagic UI as environment variables)
+        SUPABASE_URL: $SUPABASE_URL
+        SUPABASE_PUBLISHABLE_KEY: $SUPABASE_PUBLISHABLE_KEY
+        SUPABASE_SECRET_KEY: $SUPABASE_SECRET_KEY
+        # Email recipient for notifications
+        EMAIL_RECIPIENT: $EMAIL_RECIPIENT
+      java: 17
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+      
+      - name: Set up Supabase config
+        script: |
+          # Create Supabase config file from environment variables
+          mkdir -p app/src/main/res/raw
+          cat > app/src/main/res/raw/supabase_config.properties << EOF
+          # Supabase Configuration
+          # DO NOT COMMIT THIS FILE TO GIT!
+          
+          # Project URL
+          SUPABASE_URL=$SUPABASE_URL
+          
+          # Publishable Key (Safe untuk client-side)
+          SUPABASE_PUBLISHABLE_KEY=$SUPABASE_PUBLISHABLE_KEY
+          
+          # Secret Key (Hanya untuk server-side, JANGAN expose di client!)
+          SUPABASE_SECRET_KEY=$SUPABASE_SECRET_KEY
+          EOF
+          echo "✅ Supabase config created"
+      
+      - name: Set up Google Services (if needed)
+        script: |
+          # google-services.json should be committed to repo or added via environment variable
+          if [ ! -f "app/google-services.json" ]; then
+            echo "⚠️ Warning: google-services.json not found"
+            echo "If using Firebase, add google-services.json to the repository"
+          fi
+      
+      - name: Set up keystore
+        script: |
+          # Keystore will be set up from Codemagic UI environment variables
+          if [ -n "$CM_KEYSTORE" ]; then
+            echo "🔐 Setting up keystore from CM_KEYSTORE environment variable..."
+            echo $CM_KEYSTORE | base64 --decode > $CM_KEYSTORE_PATH
+            if [ -f "$CM_KEYSTORE_PATH" ]; then
+              echo "✅ Keystore file created at $CM_KEYSTORE_PATH"
+              ls -lh $CM_KEYSTORE_PATH
+            else
+              echo "❌ Failed to create keystore from CM_KEYSTORE"
+            fi
+          else
+            echo "⚠️ CM_KEYSTORE not set. Checking for local keystore..."
+            if [ -f "app/alkahf.jks" ]; then
+              echo "✅ Found local keystore, copying to $CM_KEYSTORE_PATH"
+              cp app/alkahf.jks $CM_KEYSTORE_PATH
+              if [ -f "$CM_KEYSTORE_PATH" ]; then
+                ls -lh $CM_KEYSTORE_PATH
+              fi
+            else
+              echo "⚠️ No keystore found. Will build debug APK only."
+              echo "💡 To build release AAB, set CM_KEYSTORE environment variable in Codemagic UI"
+              echo "💡 Generate base64: base64 -i app/alkahf.jks | pbcopy"
+            fi
+          fi
+      
+      - name: Build Android App Bundle (AAB) Release
+        script: |
+          if [ -f "$CM_KEYSTORE_PATH" ]; then
+            echo "🔨 Building signed AAB release..."
+            ./gradlew bundleRelease
+          else
+            echo "⚠️ Skipping AAB release build - keystore not available"
+            echo "💡 Set CM_KEYSTORE environment variable to build release AAB"
+          fi
+      
+      - name: Build APK Release
+        script: |
+          if [ -f "$CM_KEYSTORE_PATH" ]; then
+            echo "🔨 Building signed APK release..."
+            ./gradlew assembleRelease
+          else
+            echo "⚠️ Skipping APK release build - keystore not available"
+            echo "💡 Set CM_KEYSTORE environment variable to build release APK"
+          fi
+      
+      - name: Build Debug APK (always)
+        script: |
+          echo "🔨 Building debug APK..."
+          ./gradlew assembleDebug
+    artifacts:
+      - app/build/outputs/bundle/release/*.aab
+      - app/build/outputs/apk/release/*.apk
+      - app/build/outputs/apk/debug/*.apk
+      - app/build/outputs/mapping/release/mapping.txt
+    publishing:
+      email:
+        recipients:
+          - $EMAIL_RECIPIENT
+        notify:
+          success: true
+          failure: true
+      scripts:
+        - name: Publish to Google Play (optional)
+          script: |
+            # Uncomment dan configure jika ingin auto-publish ke Play Store
+            # fastlane android deploy
+            echo "📦 Build artifacts ready for download"
+

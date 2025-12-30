@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">WarungKu</string>
+    <string name="title_home">Hari Ini</string>
+    <string name="title_sell">Jual Barang</string>
+    <string name="title_stock">Stok Barang</string>
+    <string name="title_cash">Uang (Cash)</string>
+    <string name="title_shopping_list">Daftar Belanja</string>
+    
+    <!-- Onboarding Strings -->
+    <string name="onboarding_welcome_title">Selamat Datang di WarungKu</string>
+    <string name="onboarding_welcome_desc">Aplikasi manajemen warung yang mudah digunakan untuk mengelola stok, penjualan, dan keuangan bisnis Anda. Semua fitur penting dalam satu aplikasi.</string>
+    
+    <string name="onboarding_features_title">Fitur Lengkap</string>
+    <string name="onboarding_features_desc">• Manajemen Stok Barang\n• Sistem Penjualan (POS)\n• Tracking Cash Flow\n• Laporan Keuangan\n• Barcode Scanner\n• Backup &amp; Restore Data\n• Multi-User Support</string>
+    
+    <string name="onboarding_tips_title">Tips Penggunaan</string>
+    <string name="onboarding_tips_desc">• Gunakan barcode scanner untuk input produk lebih cepat\n• Set minimum stok untuk mendapatkan notifikasi\n• Backup data secara berkala untuk keamanan\n• Login untuk sync data antar device\n• Gunakan filter waktu di Ringkasan untuk analisis</string>
+    
+    <string name="onboarding_about_title">Tentang WarungKu</string>
+    <string name="onboarding_about_desc">WarungKu adalah aplikasi manajemen warung yang dirancang khusus untuk UMKM kecil. Fokus pada kemudahan penggunaan dan fitur praktis yang benar-benar dibutuhkan untuk mengelola bisnis sehari-hari.</string>
+</resources>

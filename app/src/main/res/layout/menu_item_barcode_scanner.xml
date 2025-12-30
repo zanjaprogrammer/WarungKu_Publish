@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackgroundBorderless">
+    
+    <ImageView
+        android:id="@+id/icon_barcode"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_barcode"
+        android:tint="@color/primary"
+        android:contentDescription="Scan Barcode"/>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Barcode Scanner"
+        android:textSize="10sp"
+        android:textColor="@color/primary"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+    
+</LinearLayout>
+

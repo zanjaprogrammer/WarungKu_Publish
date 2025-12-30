@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background circle -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/primary"/>
+            <size
+                android:width="56dp"
+                android:height="56dp"/>
+        </shape>
+    </item>
+    <!-- Icon (white) -->
+    <item
+        android:drawable="@drawable/ic_sell_white"
+        android:gravity="center"
+        android:width="28dp"
+        android:height="28dp"/>
+</layer-list>
+
