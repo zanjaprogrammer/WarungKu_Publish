@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.zanjaprogrammer.warungku'
+    namespace 'com.alkahfprogrammer.warungku'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.zanjaprogrammer.warungku"
+        applicationId "com.alkahfprogrammer.warungku"
         minSdk 26
         targetSdk 34
         versionCode 1

@@ -8,7 +8,7 @@ workflows:
         - codemagic_android_keystore # Add keystore credentials in Codemagic UI
         - supabase_config # Add Supabase config in Codemagic UI
       vars:
-        PACKAGE_NAME: "com.zanjaprogrammer.warungku"
+        PACKAGE_NAME: "com.alkahfprogrammer.warungku"
         CM_KEYSTORE_PATH: "/tmp/keystore.jks"
         # Keystore credentials - default values (can be overridden by environment variables)
         CM_KEYSTORE_PASSWORD: "123456789"
